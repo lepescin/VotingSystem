@@ -4,8 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>VotingSystem</artifactId>
+    <groupId>ru.lepescin.restaurants</groupId>
+    <artifactId>voting</artifactId>
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <name>Restaurant Voting System</name>
@@ -41,7 +42,7 @@
     </properties>
 
     <build>
-        <finalName>Restaurant Voting System</finalName>
+        <finalName>voting</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
