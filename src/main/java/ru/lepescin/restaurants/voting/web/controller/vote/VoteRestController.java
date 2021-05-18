@@ -36,19 +36,6 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{restId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int restId) {
-        log.info("update vote from user {} for restaurant {}", authUserId(), restId);
-        service.update(authUserId(), restId);
-    }
-
-    @DeleteMapping(value = "/{restId}")
-    public void delete(@PathVariable int restId) {
-        log.info("delete today vote from user {} for restaurant {} ", authUserId(), restId);
-        service.delete(LocalDate.now(), authUserId());
-    }
-
     @GetMapping("/history")
     public List<Vote> getAll() {
         log.info("history of votes for user {}", authUserId());

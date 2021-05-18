@@ -39,4 +39,8 @@ public class RestaurantRepository {
     public List<Restaurant> getAllWithMenuOfDay(LocalDate date) {
         return crudRepository.getAllWithMenuOfDay(date);
     }
+
+    public List<Restaurant> getAllWithVotesOfDay(LocalDate date) {
+        return crudRepository.getAllWithVotesOfDay(date);
+    }
 }

@@ -43,4 +43,8 @@ public class RestaurantService {
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNotFoundWithId(repository.save(restaurant), restaurant.getId());
     }
+
+    public List<Restaurant> getAllWithVotesOfDay(){
+        return repository.getAllWithVotesOfDay(LocalDate.now());
+    }
 }

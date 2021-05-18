@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.lepescin.restaurants.voting.model.Restaurant;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -20,4 +21,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("SELECT DISTINCT r FROM Restaurant r JOIN FETCH r.menu m where m.date =?1")
     List<Restaurant> getAllWithMenuOfDay(LocalDate date);
 
+    @Query("SELECT DISTINCT r FROM Restaurant r JOIN FETCH r.votes v where v.voteDate =?1")
+    List<Restaurant> getAllWithVotesOfDay(LocalDate voteDate);
 }

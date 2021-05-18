@@ -13,6 +13,7 @@ import ru.lepescin.restaurants.voting.model.Restaurant;
 import ru.lepescin.restaurants.voting.service.DishService;
 import ru.lepescin.restaurants.voting.service.RestaurantService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,31 +29,37 @@ public class RestaurantRestController {
 
     @GetMapping
     public List<Restaurant> getAll() {
-        log.info("getAll restaurants");
+        log.info("get all restaurants");
         return restaurantService.getAll();
+    }
+
+    @GetMapping(value = "/{restId}")
+    public List<Dish> getMenu(@PathVariable int restId) {
+        log.info("get menu for date {} from restaurant {}", LocalDate.now(), restId);
+        return dishService.getMenu(LocalDate.now(), restId);
+    }
+
+    @GetMapping("/{restId}/dishes")
+    public List<Dish> getAllDishes(@PathVariable int restId) {
+        log.info("get all dishes of restaurant {}", restId);
+        return dishService.getAll(restId);
     }
 
     @GetMapping("/menus")
     public List<Restaurant> getAllTodayMenus() {
-        log.info("getAllTodayMenus");
+        log.info("get all today menus");
         return restaurantService.getAllWithMenuOfDay();
     }
 
-    @GetMapping("/{id}")
-    public Restaurant get(@PathVariable int id) {
-        log.info("get restaurant {}", id);
-        return restaurantService.get(id);
+    @GetMapping("/{restId}/dishes/{dishId}")
+    public Dish getDish(@PathVariable int restId, @PathVariable int dishId) {
+        log.info("get dish {} of restaurant {}", dishId, restId);
+        return dishService.get(dishId, restId);
     }
 
-    @GetMapping("/{id}/dishes")
-    public List<Dish> getAllDishes(@PathVariable int id) {
-        log.info("getAllDishes of restaurant {}", id);
-        return dishService.getAll(id);
-    }
-
-    @GetMapping("/{id}/dishes/{dishId}")
-    public Dish getDish(@PathVariable int id, @PathVariable int dishId) {
-        log.info("get dish {} of restaurant {}", dishId, id);
-        return dishService.get(dishId, id);
+    @GetMapping("/votes")
+    public List<Restaurant> getAllWithVotesOfDay() {
+        log.info("get all restaurants with today votes");
+        return restaurantService.getAllWithVotesOfDay();
     }
 }

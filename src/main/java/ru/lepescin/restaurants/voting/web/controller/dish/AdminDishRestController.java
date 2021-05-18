@@ -26,29 +26,29 @@ public class AdminDishRestController {
     @Autowired
     private DishService dishService;
 
-    @PostMapping(value = "/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
-        log.info("create {} for restaurant with id={}", dish, restaurantId);
+    @PostMapping(value = "/{restId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int restId) {
+        log.info("create {} for restaurant with id={}", dish, restId);
         checkNew(dish);
-        Dish created = dishService.create(dish, restaurantId);
+        Dish created = dishService.create(dish, restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/" + restaurantId + "/dishes" + "/{id}")
+                .path(REST_URL + "/" + restId + "/dishes" + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @DeleteMapping("/{restaurantId}/dishes/{dishId}")
+    @DeleteMapping("/{restId}/dishes/{dishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int restaurantId, @PathVariable int dishId) {
-        log.info("delete dish {} of restaurant with id={}", dishId, restaurantId);
-        dishService.delete(dishId, restaurantId);
+    public void delete(@PathVariable int restId, @PathVariable int dishId) {
+        log.info("delete dish {} of restaurant with id={}", dishId, restId);
+        dishService.delete(dishId, restId);
     }
 
-    @PutMapping(value = "/{restaurantId}/dishes/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{restId}/dishes/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable int restaurantId, @PathVariable int dishId) {
+    public void update(@Valid @RequestBody Dish dish, @PathVariable int restId, @PathVariable int dishId) {
         assureIdConsistent(dish, dishId);
-        log.info("update {} with id={} for restaurant with id={}", dish, dishId, restaurantId);
-        dishService.update(dish, restaurantId);
+        log.info("update {} with id={} for restaurant with id={}", dish, dishId, restId);
+        dishService.update(dish, restId);
     }
 }

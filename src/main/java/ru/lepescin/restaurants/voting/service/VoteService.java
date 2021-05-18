@@ -33,13 +33,13 @@ public class VoteService {
     }
 
     public Vote create(int userId, int restaurantId) {
-        return voteRepository.save(new Vote(), userId, restaurantId);
-    }
-
-    public void update(int userId, int restaurantId) {
-        checkTime(LocalDateTime.now().toLocalTime());
         Vote vote = voteRepository.getByDate(LocalDate.now(), userId);
-        checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), vote.getId());
+        if (vote == null) {
+            return voteRepository.save(new Vote(), userId, restaurantId);
+        } else {
+            checkTime(LocalDateTime.now().toLocalTime());
+            return checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), vote.getId());
+        }
     }
 
     public List<Vote> getVotesForRestaurantOnDate(LocalDate date, int restId) {
