@@ -24,6 +24,7 @@ public class DishRepository {
         if (!dish.isNew() && get(dish.getId(), restaurantId) == null) {
             return null;
         }
+        dish.setDate(LocalDate.now());
         dish.setRestaurant(restaurantRepository.getOne(restaurantId));
         return dishRepository.save(dish);
     }

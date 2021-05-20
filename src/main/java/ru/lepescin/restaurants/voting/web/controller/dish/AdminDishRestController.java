@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.lepescin.restaurants.voting.model.Dish;
 import ru.lepescin.restaurants.voting.service.DishService;
+import ru.lepescin.restaurants.voting.to.DishTo;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -27,10 +28,10 @@ public class AdminDishRestController {
     private DishService dishService;
 
     @PostMapping(value = "/{restId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int restId) {
-        log.info("create {} for restaurant with id={}", dish, restId);
-        checkNew(dish);
-        Dish created = dishService.create(dish, restId);
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody DishTo dishTo, @PathVariable int restId) {
+        log.info("create {} for restaurant with id={}", dishTo, restId);
+        checkNew(dishTo);
+        Dish created = dishService.create(dishTo, restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/" + restId + "/dishes" + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -46,9 +47,9 @@ public class AdminDishRestController {
 
     @PutMapping(value = "/{restId}/dishes/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Dish dish, @PathVariable int restId, @PathVariable int dishId) {
-        assureIdConsistent(dish, dishId);
-        log.info("update {} with id={} for restaurant with id={}", dish, dishId, restId);
-        dishService.update(dish, restId);
+    public void update(@Valid @RequestBody DishTo dishTo, @PathVariable int restId, @PathVariable int dishId) {
+        assureIdConsistent(dishTo, dishId);
+        log.info("update {} with id={} for restaurant with id={}", dishTo, dishId, restId);
+        dishService.update(dishTo, restId);
     }
 }
