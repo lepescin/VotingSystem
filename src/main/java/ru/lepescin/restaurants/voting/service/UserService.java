@@ -1,5 +1,7 @@
 package ru.lepescin.restaurants.voting.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,10 +42,12 @@ public class UserService implements UserDetailsService {
         return new AuthorizedUser(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         return prepareAndSave(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id), id);
     }
@@ -57,6 +61,7 @@ public class UserService implements UserDetailsService {
         return checkNotFound(repository.getByEmail(email.toLowerCase()), "email=" + email);
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
         return repository.getAll();
     }
@@ -66,6 +71,7 @@ public class UserService implements UserDetailsService {
         prepareAndSave(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void update(UserTo userTo) {
         User user = get(userTo.id());

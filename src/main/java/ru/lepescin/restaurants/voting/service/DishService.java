@@ -22,6 +22,7 @@ public class DishService {
         this.repository = repository;
     }
 
+    @CacheEvict(value = "allRestaurantsWithMenuOfDay", allEntries = true)
     public void delete(int id, int restaurantId) {
         checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
@@ -43,18 +44,22 @@ public class DishService {
         return checkNotFoundWithId(repository.save(dish, restaurantId), dish.getId());
     }
 
+    @CacheEvict(value = "allRestaurantsWithMenuOfDay", allEntries = true)
     public Dish create(DishTo dishTo, int restaurantId) {
         return create(createNewFromTo(dishTo), restaurantId);
     }
 
+    @CacheEvict(value = "allRestaurantsWithMenuOfDay", allEntries = true)
     public Dish create(Dish dish, int restaurantId) {
         return save(dish, restaurantId);
     }
 
+    @CacheEvict(value = "allRestaurantsWithMenuOfDay", allEntries = true)
     public void update(DishTo dishTo, int restaurantId) {
         update(createNewFromTo(dishTo), restaurantId);
     }
 
+    @CacheEvict(value = "allRestaurantsWithMenuOfDay", allEntries = true)
     public void update(Dish dish, int restaurantId) {
         save(dish, restaurantId);
     }

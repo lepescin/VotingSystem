@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.lepescin.restaurants.voting.model.Restaurant;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional(readOnly = true)
